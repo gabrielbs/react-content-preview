@@ -9,6 +9,7 @@ class App extends Component {
 				<div className='example'>
 					<ContentPreview
 	          url='http://www.twitch.tv'
+						useCached={ true }
 	          linkTo={(props) => (
 	            <a
 	    					onMouseEnter={() => props.getPreview()}

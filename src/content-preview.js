@@ -31,7 +31,7 @@ class ContentPreview extends Component {
 		&url=${url}`
 		this.setState({ loading: true })
 		if (useCached && cache) {
-			return new Promise((resolve) => cache.data)
+			return new Promise((r) => r(cache.image))
 		} else {
 			return fetch(proxyUrl + apiUrl)
 				.then(data => data.blob())
@@ -49,8 +49,10 @@ class ContentPreview extends Component {
 	}
 
 	getPreview() {
+		console.log(this.fetchPreview())
 		this.fetchPreview()
 			.then((response) => {
+				console.log(response)
 				this.setState({ previewImg: URL.createObjectURL(response) })
 			})
 			.catch((error) => {
@@ -71,7 +73,6 @@ class ContentPreview extends Component {
 					cleanPreview: this.cleanPreview,
 					url: this.props.url
 				}) }
-
 				{ this.props.previewContainer({previewImg: this.state.previewImg}) }
 				{
 					this.state.loading &&
