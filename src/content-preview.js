@@ -15,6 +15,7 @@ class ContentPreview extends Component {
 	constructor(props) {
 		super(props)
 		this.getPreview = this.getPreview.bind(this)
+		this.cleanPreview = this.cleanPreview.bind(this)
 	}
 
 	componentDidMount() {
@@ -58,10 +59,19 @@ class ContentPreview extends Component {
 			.finally(() => this.setState({ loading: false }))
 	}
 
+	cleanPreview() {
+		this.setState({ previewImg: null })
+	}
+
 	render() {
 		return(
 			<Fragment>
-				{ this.props.linkTo({getPreview: this.getPreview, url: this.props.url}) }
+				{ this.props.linkTo({
+					getPreview: this.getPreview,
+					cleanPreview: this.cleanPreview,
+					url: this.props.url
+				}) }
+
 				{ this.props.previewContainer({previewImg: this.state.previewImg}) }
 				{
 					this.state.loading &&

@@ -12,6 +12,7 @@ class App extends Component {
 	          linkTo={(props) => (
 	            <a
 	    					onMouseEnter={() => props.getPreview()}
+								onMouseLeave={() => props.cleanPreview()}
 	    					href={props.url}>
 	    					preview
 	    				</a>
