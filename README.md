@@ -8,7 +8,7 @@ Preview websites anyway you want using https://apileap.com/
 
 ## Usage
 
-```
+```jsx
 <ContentPreview
   url='http://www.twitch.tv'
   useCached={ true }
