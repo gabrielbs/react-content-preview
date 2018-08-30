@@ -26,8 +26,8 @@ class ContentPreview extends Component {
 		const { url, proxy, useCached } = this.props
 		const { cache } = this.state
 		const proxyUrl = !!proxy ? proxy : 'https://cors-anywhere.herokuapp.com/'
-		const apiUrl = `https://apileap.com/api/screenshot/v1/urltoimage
-		?access_key=52ba50eea6264cf0abbda2aad581c8e2
+		const apiUrl = `http://api.screenshotlayer.com/api/capture
+		?access_key=d5ec05f4c29e59b41644cc0d4b71cb96
 		&url=${url}`
 		this.setState({ loading: true })
 		if (useCached && cache) {
