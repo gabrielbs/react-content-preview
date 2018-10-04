@@ -1,21 +1,32 @@
-import React, { Component, Fragment } from 'react'
-import PropTypes from 'prop-types'
+// @flow
+import * as React from 'react'
 import store from 'store'
 
 import './content-preview.css'
 
-class ContentPreview extends Component {
-	state = {
-		previewImg: null,
-		loading: false,
-		error: null,
-		cache: null
-	}
+type Props = {
+	linkTo: Function,
+	previewContainer: Function,
+	loader: Function,
+	url: string,
+	proxy: string,
+	errorMessage: string,
+	useCached: bool
+}
 
-	constructor(props) {
-		super(props)
-		this.getPreview = this.getPreview.bind(this)
-		this.cleanPreview = this.cleanPreview.bind(this)
+type State = {
+	previewImg: string,
+	loading: bool,
+	error: bool,
+	cache: Object
+}
+
+class ContentPreview extends React.Component<Props, State> {
+	state = {
+		previewImg: '',
+		loading: false,
+		error: false,
+		cache: {}
 	}
 
 	componentDidMount() {
@@ -31,7 +42,7 @@ class ContentPreview extends Component {
 		&url=${url}`
 		this.setState({ loading: true })
 		if (useCached && cache) {
-			return new Promise((r) => r(cache.image))
+			return async (resolve: Function) => resolve(cache.image)
 		} else {
 			return fetch(proxyUrl + apiUrl)
 				.then(data => data.blob())
@@ -48,7 +59,7 @@ class ContentPreview extends Component {
 
 	}
 
-	getPreview() {
+	getPreview = (event: SyntheticEvent<HTMLAnchorElement>) => {
 		console.log(this.fetchPreview())
 		this.fetchPreview()
 			.then((response) => {
@@ -61,13 +72,13 @@ class ContentPreview extends Component {
 			.finally(() => this.setState({ loading: false }))
 	}
 
-	cleanPreview() {
-		this.setState({ previewImg: null })
+	cleanPreview = (event: SyntheticEvent<HTMLAnchorElement>) => {
+		this.setState({ previewImg: '' })
 	}
 
 	render() {
 		return(
-			<Fragment>
+			<React.Fragment>
 				{ this.props.linkTo({
 					getPreview: this.getPreview,
 					cleanPreview: this.cleanPreview,
@@ -82,18 +93,9 @@ class ContentPreview extends Component {
 					this.state.error &&
 						this.props.errorMessage
 				}
-			</Fragment>
+			</React.Fragment>
 		)
 	}
-}
-
-ContentPreview.propTypes = {
-	linkTo: PropTypes.func,
-	previewContainer: PropTypes.func,
-	loader: PropTypes.func,
-	url: PropTypes.string,
-	proxy: PropTypes.string,
-	errorMessage: PropTypes.string
 }
 
 export default ContentPreview
